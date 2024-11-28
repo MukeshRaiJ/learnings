@@ -1,51 +1,52 @@
-import React from "react";
+"use client";
 
-// Component to create a 16x16 grid of small boxes
+import React, { useState } from "react";
+import styles from "./index.module.css";
+
 const Grid = () => {
-  // Create an array to hold 256 small box elements
-  // We're using 16x16 to create a square grid (16 * 16 = 256)
-  let boxes = [];
+  // State to hold the current grid size (default is 16x16)
+  const [gridSize, setGridSize] = useState(16);
 
-  // Loop to generate 256 small box elements
-  // Each box will be added to the 'boxes' array
-  for (let i = 0; i < 256; i++) {
-    // Create a div for each box with a unique key
-    // The key helps React efficiently update the list
-    boxes.push(<div className="small-box" key={i}></div>);
-  }
+  // Calculate the total number of boxes in the grid based on grid size
+  const totalBoxes = gridSize * gridSize;
+
+  // Calculate the dynamic size of each box so they fit within the fixed container
+  const boxSize = 400 / gridSize;
 
   return (
-    <div>
-      {/* Main container with fixed dimensions */}
-      <div
-        style={{
-          width: "400px", // Total width of the grid
-          height: "400px", // Total height of the grid
-        }}
-      >
-        {/* Flex container to arrange small boxes in a grid layout */}
-        <div
-          style={{
-            display: "flex", // Use flexbox for layout
-            flexWrap: "wrap", // Allow boxes to wrap to next line
-          }}
+    <div className={styles.container}>
+      {/* Dropdown to select the grid size */}
+      <div className={styles["container__dropdown"]}>
+        {/* Label for the dropdown */}
+        <label htmlFor="grid-size" className={styles["container__label"]}>
+          Select Grid Size:
+        </label>
+        {/* Dropdown for selecting grid size, updates state on change */}
+        <select
+          id="grid-size"
+          value={gridSize}
+          onChange={(e) => setGridSize(parseInt(e.target.value, 10))}
+          className={styles["container__select"]}
         >
-          {/* Render all the small boxes */}
-          {/* .map() is used to render each box from the boxes array */}
-          {boxes.map((box) => box)}
-        </div>
+          <option value={8}>8x8</option>
+          <option value={16}>16x16</option>
+          <option value={32}>32x32</option>
+        </select>
       </div>
 
-      {/* CSS styles for the small boxes */}
-      <style>
-        {`
-          .small-box {
-            width: 24px;            
-            height: 24px;           
-            border: 1px solid white; 
-          }
-        `}
-      </style>
+      {/* Main container for the grid */}
+      <div className={styles["container__grid"]}>
+        {/* Wrapper for the grid boxes; uses CSS variable for box size */}
+        <div
+          className={styles["container__grid-wrapper"]}
+          style={{ "--box-size": `${boxSize}px` }}
+        >
+          {/* Generate grid boxes dynamically based on totalBoxes */}
+          {Array.from({ length: totalBoxes }).map((_, index) => (
+            <div key={index} className={styles["container__grid-box"]}></div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
