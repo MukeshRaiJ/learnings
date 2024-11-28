@@ -1,41 +1,48 @@
 import React from "react";
 
-// Simple grid
+// Component to create a 16x16 grid of small boxes
 const Grid = () => {
-  // Make array of 256 items (16x16)
+  // Create an array to hold 256 small box elements
+  // We're using 16x16 to create a square grid (16 * 16 = 256)
   let boxes = [];
+
+  // Loop to generate 256 small box elements
+  // Each box will be added to the 'boxes' array
   for (let i = 0; i < 256; i++) {
+    // Create a div for each box with a unique key
+    // The key helps React efficiently update the list
     boxes.push(<div className="small-box" key={i}></div>);
   }
 
   return (
     <div>
-      {/* Main container */}
+      {/* Main container with fixed dimensions */}
       <div
         style={{
-          width: "400px",
-          height: "400px",
+          width: "400px", // Total width of the grid
+          height: "400px", // Total height of the grid
         }}
       >
-        {/* Box that holds all small boxes */}
+        {/* Flex container to arrange small boxes in a grid layout */}
         <div
           style={{
-            display: "flex",
-            flexWrap: "wrap",
+            display: "flex", // Use flexbox for layout
+            flexWrap: "wrap", // Allow boxes to wrap to next line
           }}
         >
-          {/* All the small boxes */}
+          {/* Render all the small boxes */}
+          {/* .map() is used to render each box from the boxes array */}
           {boxes.map((box) => box)}
         </div>
       </div>
 
-      {/* Style for small boxes */}
+      {/* CSS styles for the small boxes */}
       <style>
         {`
           .small-box {
-            width: 24px;
-            height: 24px;
-            border: 1px solid white;
+            width: 24px;            
+            height: 24px;           
+            border: 1px solid white; 
           }
         `}
       </style>
